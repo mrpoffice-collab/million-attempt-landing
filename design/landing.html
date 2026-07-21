@@ -289,21 +289,35 @@
   }
 
   async function runLive(trouble) {
-    const res = await fetch('/api/trouble', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ trouble }) });
-    if (!res.ok) throw new Error('start failed');
-    runId = (await res.json()).id;
-    let lastStage = '';
-    while (true) {
+    // transient-tolerant: a sleepy host or dropped poll retries instead of dying
+    let res = null;
+    for (let attempt = 0; attempt < 3 && !runId; attempt++) {
+      try {
+        res = await fetch('/api/trouble', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ trouble }) });
+        if (res.ok) runId = (await res.json()).id;
+        else if (res.status === 429) throw new Error('throttled');
+        else await new Promise(r => setTimeout(r, 2500));
+      } catch (e) { if (e.message === 'throttled') throw e; await new Promise(r => setTimeout(r, 2500)); }
+    }
+    if (!runId) throw new Error('start failed');
+    let misses = 0;
+    for (let tick = 0; tick < 160; tick++) {
       await new Promise(r => setTimeout(r, 1500));
-      const s = await (await fetch(`/api/run/${runId}`)).json();
+      let s;
+      try {
+        const r2 = await fetch(`/api/run/${runId}`);
+        if (!r2.ok) throw new Error('poll ' + r2.status);
+        s = await r2.json();
+        misses = 0;
+      } catch { if (++misses > 8) throw new Error('lost the run'); continue; }
       stages.forEach((st) => {
         const idx = stages.indexOf(st), cur = stages.indexOf(s.stage);
         setStage(st, s.status === 'ready' || idx < cur ? 'done' : idx === cur ? 'run' : null);
       });
-      if (s.excerpt && s.stage !== lastStage) lastStage = s.stage;
       if (s.status === 'ready') { typeInto($('#excerpt'), s.excerpt, () => $('#gate').classList.add('on')); return; }
       if (s.status === 'error') { $('#excerpt').textContent = 'Something hiccuped on my end — try once more in a minute.'; return; }
     }
+    throw new Error('timeout');
   }
 
   function runDemo() {
