@@ -1,0 +1,345 @@
+<!doctype html>
+<!-- @dsCard group="Million Attempt" -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What's troubling your business? — Meschelle Peterson · code63labs</title>
+<meta name="description" content="Tell my team what's troubling your business. They'll dig into it and send you a short, useful report. No charge, no sales calls. Ever.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,600&family=Manrope:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  /* MRP Personal — Million Attempt landing.
+     This file is BOTH the design (Claude Design, ui_kits/million-attempt/) and
+     the production page (served by the Render app). Keep them identical. */
+  :root {
+    --coral-bright: #FF6A4D; /* big display numbers ONLY */
+    --coral-deep:   #D9401F; /* tags & small accent text */
+    --ink:          #141414;
+    --bone:         #F4F1EC;
+    --graphite:     #3A3A3A;
+    --white:        #FFFFFF;
+    --hairline:        color-mix(in srgb, var(--ink) 14%, transparent);
+    --hairline-strong: color-mix(in srgb, var(--ink) 28%, transparent);
+    --bone-hairline:   color-mix(in srgb, var(--bone) 22%, transparent);
+    --font-display:   'Cormorant', Georgia, serif;
+    --font-body:      'Manrope', system-ui, sans-serif;
+    --font-signature: 'Italiana', Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body); font-weight: 300;
+    background: var(--bone); color: var(--ink);
+    line-height: 1.65; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+  .kicker {
+    font-size: .8125rem; font-weight: 600; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--coral-deep);
+  }
+
+  /* ── hero ── */
+  .hero { padding: 84px 0 48px; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.6rem, 8vw, 3.9rem); line-height: 1.08; letter-spacing: -.01em;
+    margin-top: 22px; max-width: 14ch;
+  }
+  .hero h1 em { font-style: italic; color: var(--coral-deep); }
+  .hero .dek { font-size: 1.15rem; margin-top: 18px; max-width: 44ch; }
+  .promise { font-size: .95rem; color: var(--graphite); margin-top: 10px; }
+  .promise strong { font-weight: 600; color: var(--ink); }
+
+  /* ── the box ── */
+  .ask { margin-top: 30px; }
+  .ask label {
+    display: block; font-size: .8125rem; font-weight: 600; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--graphite); margin-bottom: 10px;
+  }
+  .ask textarea {
+    width: 100%; min-height: 128px; resize: vertical;
+    font-family: var(--font-body); font-weight: 400; font-size: 1.05rem; line-height: 1.6;
+    color: var(--ink); background: var(--white);
+    border: 1px solid var(--hairline-strong); border-radius: 10px;
+    padding: 16px 18px; outline: none;
+  }
+  .ask textarea:focus { border-color: var(--coral-deep); box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral-deep) 18%, transparent); }
+  .ask .row { display: flex; gap: 14px; align-items: center; margin-top: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 1rem; letter-spacing: .02em;
+    color: var(--bone); background: var(--ink);
+    border: none; border-radius: 999px; padding: 14px 30px; cursor: pointer;
+  }
+  .btn:hover { background: #000; }
+  .btn:focus-visible { outline: 3px solid var(--coral-deep); outline-offset: 2px; }
+  .btn[disabled] { opacity: .45; cursor: default; }
+  .ask .hint { font-size: .875rem; color: var(--graphite); }
+
+  /* ── the show ── */
+  .show { display: none; margin-top: 34px; }
+  .show.on { display: block; }
+  .console {
+    background: var(--ink); color: var(--bone); border-radius: 12px;
+    padding: 26px 26px 22px; box-shadow: 0 14px 40px color-mix(in srgb, var(--ink) 18%, transparent);
+  }
+  .console .head {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    padding-bottom: 14px; border-bottom: 1px solid var(--bone-hairline); margin-bottom: 14px;
+  }
+  .console .head .t { font-size: .8125rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--coral-bright); }
+  .console .head .who { font-family: var(--font-signature); font-size: 1.05rem; color: var(--bone); }
+  .stage { display: flex; gap: 12px; align-items: baseline; padding: 7px 0; font-size: .98rem; color: color-mix(in srgb, var(--bone) 55%, transparent); }
+  .stage .dot { width: 9px; height: 9px; border-radius: 3px; background: color-mix(in srgb, var(--bone) 28%, transparent); flex: none; position: relative; top: -1px; }
+  .stage.run { color: var(--bone); }
+  .stage.run .dot { background: var(--coral-bright); animation: pulse 1.1s ease-in-out infinite; }
+  .stage.done { color: var(--bone); }
+  .stage.done .dot { background: var(--coral-deep); }
+  .stage .mark { margin-left: auto; font-size: .8rem; color: color-mix(in srgb, var(--bone) 45%, transparent); }
+  @keyframes pulse { 50% { transform: scale(1.45); } }
+  .excerpt {
+    margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--bone-hairline);
+    font-size: .98rem; line-height: 1.7; color: var(--bone); min-height: 54px; white-space: pre-wrap;
+  }
+  .excerpt .cursor { display: inline-block; width: 9px; height: 1.05em; background: var(--coral-bright); vertical-align: text-bottom; animation: pulse 1s infinite; }
+
+  /* ── email gate ── */
+  .gate { display: none; margin-top: 22px; }
+  .gate.on { display: block; }
+  .gate .card {
+    background: var(--white); border: 1px solid var(--hairline); border-radius: 12px; padding: 26px;
+  }
+  .gate h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.8rem; line-height: 1.15; }
+  .gate p { margin-top: 8px; font-size: 1rem; }
+  .gate form { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+  .gate input[type=email] {
+    flex: 1 1 240px; font-family: var(--font-body); font-weight: 400; font-size: 1rem;
+    color: var(--ink); background: var(--white);
+    border: 1px solid var(--hairline-strong); border-radius: 999px; padding: 13px 20px; outline: none;
+  }
+  .gate input[type=email]:focus { border-color: var(--coral-deep); box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral-deep) 18%, transparent); }
+  .gate .fine { font-size: .84rem; color: var(--graphite); margin-top: 12px; }
+  .gate .sent { display: none; font-size: 1.05rem; font-weight: 400; margin-top: 14px; }
+  .gate .sent a { color: var(--coral-deep); }
+  .gate.delivered form { display: none; }
+  .gate.delivered .sent { display: block; }
+
+  /* ── how it works / trust ── */
+  section.band { padding: 56px 0; border-top: 1px solid var(--hairline); margin-top: 64px; }
+  .band h2 { font-family: var(--font-display); font-weight: 600; font-size: 2.1rem; line-height: 1.12; max-width: 22ch; }
+  .steps { margin-top: 26px; display: grid; gap: 18px; }
+  .step { display: grid; grid-template-columns: 44px 1fr; gap: 14px; align-items: baseline; }
+  .step .n { font-family: var(--font-display); font-weight: 600; font-size: 1.9rem; color: var(--coral-bright); line-height: 1; }
+  .step p { font-size: 1.02rem; max-width: 52ch; }
+  .step p strong { font-weight: 600; }
+  .honest-line {
+    margin-top: 26px; padding: 16px 20px; background: var(--white);
+    border-left: 4px solid var(--coral-deep); border-radius: 0 8px 8px 0;
+    font-size: .98rem; max-width: 56ch;
+  }
+
+  /* ── samples ── */
+  .samples { display: grid; gap: 16px; margin-top: 26px; }
+  a.sample {
+    display: block; background: var(--white); border: 1px solid var(--hairline);
+    border-radius: 12px; padding: 22px 24px; text-decoration: none; color: var(--ink);
+  }
+  a.sample:hover { border-color: var(--hairline-strong); }
+  .sample .tag { font-size: .78rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--coral-deep); }
+  .sample h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.45rem; margin-top: 6px; line-height: 1.2; }
+  .sample p { font-size: .95rem; color: var(--graphite); margin-top: 6px; }
+  .sample .go { font-size: .9rem; font-weight: 600; color: var(--coral-deep); margin-top: 10px; display: inline-block; }
+
+  /* ── price ── */
+  .price .card {
+    background: var(--ink); color: var(--bone); border-radius: 14px; padding: 34px 30px; margin-top: 26px;
+  }
+  .price .card .k { font-size: .8125rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--coral-bright); }
+  .price .amount { font-family: var(--font-display); font-weight: 600; font-size: 3.4rem; line-height: 1; margin-top: 14px; }
+  .price .amount span { font-size: 1.15rem; font-family: var(--font-body); font-weight: 300; letter-spacing: .01em; }
+  .price .card p { margin-top: 14px; font-size: 1rem; max-width: 50ch; color: color-mix(in srgb, var(--bone) 88%, transparent); }
+  .price .after { font-size: .95rem; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--bone-hairline); color: color-mix(in srgb, var(--bone) 75%, transparent); max-width: 50ch; }
+
+  /* ── footer ── */
+  footer { padding: 64px 0 56px; margin-top: 64px; border-top: 1px solid var(--hairline-strong); }
+  footer .sig { font-family: var(--font-signature); font-size: 1.6rem; letter-spacing: .04em; }
+  footer .handle { font-size: .8125rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--graphite); margin-top: 6px; }
+  footer .never { font-size: .95rem; color: var(--graphite); margin-top: 18px; }
+</style>
+</head>
+<body>
+
+<main>
+  <div class="wrap">
+    <header class="hero">
+      <p class="kicker">Meschelle Peterson · code63labs</p>
+      <h1>What's troubling <em>your</em> business?</h1>
+      <p class="dek">Type it below, exactly how you'd say it out loud. My team digs into it while you watch, and you get a short, useful report about your problem.</p>
+      <p class="promise"><strong>No charge. No sales calls. Ever.</strong></p>
+
+      <div class="ask" id="ask">
+        <label for="trouble">The trouble, in your own words</label>
+        <textarea id="trouble" maxlength="1200" placeholder="I quote jobs and never hear back. People book and don't show. My reviews sit unanswered. The books eat my Sundays. Whatever it is — say it plainly."></textarea>
+        <div class="row">
+          <button class="btn" id="go" type="button">Put my team on it</button>
+          <span class="hint">Takes about a minute. You'll see the work.</span>
+        </div>
+      </div>
+
+      <div class="show" id="show" aria-live="polite">
+        <div class="console">
+          <div class="head"><span class="t">The team is on it</span><span class="who">Meschelle's desk</span></div>
+          <div class="stage" data-stage="read"><span class="dot"></span> Reading what you wrote<span class="mark"></span></div>
+          <div class="stage" data-stage="size"><span class="dot"></span> Sizing the problem — what it costs, who else has it<span class="mark"></span></div>
+          <div class="stage" data-stage="draft"><span class="dot"></span> Drafting your report — the trouble, the why, three moves<span class="mark"></span></div>
+          <div class="excerpt" id="excerpt"></div>
+        </div>
+      </div>
+
+      <div class="gate" id="gate">
+        <div class="card">
+          <h2>Your report is ready.</h2>
+          <p>Tell me where to send it. That's the whole trade — the report is free, and your address gets you a handful of genuinely useful notes over the next few weeks, not a barrage.</p>
+          <form id="emailForm">
+            <input type="email" id="email" required placeholder="you@yourbusiness.com" aria-label="Your email">
+            <button class="btn" type="submit">Send my report</button>
+          </form>
+          <p class="fine">Written by my team, read by me. Unsubscribe anytime with one click.</p>
+          <p class="sent" id="sent">Sent. It's in your inbox — and you can <a id="openReport" href="#">read it right here</a> too.</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="band">
+      <p class="kicker">How this works</p>
+      <h2>A team that works while you watch.</h2>
+      <div class="steps">
+        <div class="step"><span class="n">1</span><p><strong>You type the trouble.</strong> One box, your own words. No forms, no phone number, no "book a discovery call."</p></div>
+        <div class="step"><span class="n">2</span><p><strong>My team digs in — live.</strong> They read what you wrote, size the problem against real numbers, and draft your report while you watch. About a minute.</p></div>
+        <div class="step"><span class="n">3</span><p><strong>You get the report.</strong> Short, specific to your trouble, and honest about what it can't know from one paragraph. Useful whether or not we ever speak.</p></div>
+      </div>
+      <p class="honest-line">The honest part: the team is AI agents I built and run. Every report is my system's work under my direction, and when you reply, you're writing to me — a person. That's the whole reason there are no sales calls: the work speaks, and I write back.</p>
+    </section>
+
+    <section class="band">
+      <p class="kicker">See two before you type</p>
+      <h2>Reports the team has written.</h2>
+      <div class="samples">
+        <a class="sample" href="/sample/no-shows">
+          <span class="tag">Sample report</span>
+          <h3>"People book with me and then just… don't show."</h3>
+          <p>A med spa losing seven slots a week — what it actually costs, and three moves that don't punish loyal clients.</p>
+          <span class="go">Read the report →</span>
+        </a>
+        <a class="sample" href="/sample/quotes">
+          <span class="tag">Sample report</span>
+          <h3>"I send quotes and never hear back."</h3>
+          <p>A contractor whose quotes vanish into silence — why the silence happens and how to make following up automatic.</p>
+          <span class="go">Read the report →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="band price">
+      <p class="kicker">If you want the trouble fixed</p>
+      <h2>The report tells you what to do. This is for when you'd rather it just get done.</h2>
+      <div class="card">
+        <span class="k">The fix plan</span>
+        <div class="amount">$500 <span>one time</span></div>
+        <p>My team builds the fix for the trouble you typed — set up, wired in, working. You approve everything before it touches your business.</p>
+        <p class="after">Most owners then keep the team on at $500 a month to run what got built and catch the next trouble early. That part is entirely up to you, entirely later.</p>
+      </div>
+    </section>
+
+    <footer>
+      <p class="sig">Meschelle Peterson</p>
+      <p class="handle">code63labs</p>
+      <p class="never">No sales calls. Ever. Just type the trouble.</p>
+    </footer>
+  </div>
+</main>
+
+<script>
+  // Front-of-house wiring. In the Design project this runs a DEMO of the show;
+  // in production the same code talks to the real API (window.MA_LIVE=true is
+  // set by the server-injected line below when served from the app).
+  const $ = (s) => document.querySelector(s);
+  const stages = ['read', 'size', 'draft'];
+  let runId = null;
+
+  function setStage(name, state) {
+    const el = document.querySelector(`[data-stage="${name}"]`);
+    el.classList.remove('run', 'done');
+    if (state) el.classList.add(state);
+    el.querySelector('.mark').textContent = state === 'done' ? 'done' : state === 'run' ? 'working' : '';
+  }
+
+  function typeInto(el, text, done) {
+    let i = 0;
+    el.innerHTML = '';
+    const cur = document.createElement('span'); cur.className = 'cursor';
+    const tick = () => {
+      el.textContent = text.slice(0, i);
+      el.appendChild(cur);
+      i += 2 + Math.floor(Math.random() * 3);
+      if (i <= text.length + 2) setTimeout(tick, 24);
+      else { cur.remove(); el.textContent = text; done && done(); }
+    };
+    tick();
+  }
+
+  async function runLive(trouble) {
+    const res = await fetch('/api/trouble', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ trouble }) });
+    if (!res.ok) throw new Error('start failed');
+    runId = (await res.json()).id;
+    let lastStage = '';
+    while (true) {
+      await new Promise(r => setTimeout(r, 1500));
+      const s = await (await fetch(`/api/run/${runId}`)).json();
+      stages.forEach((st) => {
+        const idx = stages.indexOf(st), cur = stages.indexOf(s.stage);
+        setStage(st, s.status === 'ready' || idx < cur ? 'done' : idx === cur ? 'run' : null);
+      });
+      if (s.excerpt && s.stage !== lastStage) lastStage = s.stage;
+      if (s.status === 'ready') { typeInto($('#excerpt'), s.excerpt, () => $('#gate').classList.add('on')); return; }
+      if (s.status === 'error') { $('#excerpt').textContent = 'Something hiccuped on my end — try once more in a minute.'; return; }
+    }
+  }
+
+  function runDemo() {
+    const script = [
+      { t: 400,  f: () => setStage('read', 'run') },
+      { t: 2100, f: () => { setStage('read', 'done'); setStage('size', 'run'); } },
+      { t: 5200, f: () => { setStage('size', 'done'); setStage('draft', 'run'); } },
+      { t: 7400, f: () => { setStage('draft', 'done');
+        typeInto($('#excerpt'),
+          'Booked-and-missed appointments aren\'t a politeness problem, they\'re a scheduling-economics problem: at a typical no-show rate, roughly one chair in four is being held for someone who was never coming…',
+          () => $('#gate').classList.add('on')); } },
+    ];
+    script.forEach(({ t, f }) => setTimeout(f, t));
+  }
+
+  $('#go').addEventListener('click', () => {
+    const trouble = $('#trouble').value.trim();
+    if (trouble.length < 12) { $('#trouble').focus(); return; }
+    $('#go').disabled = true;
+    $('#show').classList.add('on');
+    $('#show').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (window.MA_LIVE) runLive(trouble).catch(() => { $('#excerpt').textContent = 'Something hiccuped on my end — try once more in a minute.'; });
+    else runDemo();
+  });
+
+  $('#emailForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = $('#email').value.trim();
+    if (window.MA_LIVE && runId) {
+      const r = await (await fetch(`/api/run/${runId}/email`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email }) })).json();
+      $('#openReport').href = r.reportUrl || '#';
+    } else {
+      $('#openReport').href = '/sample/no-shows';
+    }
+    $('#gate').classList.add('delivered');
+  });
+</script>
+</body>
+</html>

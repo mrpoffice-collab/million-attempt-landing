@@ -1,0 +1,159 @@
+<!doctype html>
+<!-- @dsCard group="Million Attempt" -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your report — Meschelle Peterson · code63labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,600&family=Manrope:wght@300;400;500;600&family=Italiana&display=swap" rel="stylesheet">
+<style>
+  /* MRP Personal — Million Attempt mini-report.
+     Payload-driven: every report (samples and live ones) fills the JSON block.
+     This file is BOTH the design and the production template. */
+  :root {
+    --coral-bright: #FF6A4D;
+    --coral-deep:   #D9401F;
+    --ink:          #141414;
+    --bone:         #F4F1EC;
+    --graphite:     #3A3A3A;
+    --white:        #FFFFFF;
+    --hairline:        color-mix(in srgb, var(--ink) 14%, transparent);
+    --hairline-strong: color-mix(in srgb, var(--ink) 28%, transparent);
+    --font-display:   'Cormorant', Georgia, serif;
+    --font-body:      'Manrope', system-ui, sans-serif;
+    --font-signature: 'Italiana', Georgia, serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-body); font-weight: 300;
+    background: var(--bone); color: var(--ink);
+    line-height: 1.7; -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 680px; margin: 0 auto; padding: 72px 24px 64px; }
+  .kicker { font-size: .8125rem; font-weight: 600; letter-spacing: .22em; text-transform: uppercase; color: var(--coral-deep); }
+  h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(2.1rem, 6.5vw, 3rem); line-height: 1.12; letter-spacing: -.01em;
+    margin-top: 18px; max-width: 20ch;
+  }
+  .meta { font-size: .9rem; color: var(--graphite); margin-top: 10px; }
+
+  .trouble {
+    margin-top: 36px; padding: 20px 24px; background: var(--white);
+    border-left: 4px solid var(--coral-deep); border-radius: 0 10px 10px 0;
+    font-size: 1.08rem; font-style: italic;
+  }
+  .trouble .lab { font-style: normal; font-size: .78rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--graphite); display: block; margin-bottom: 6px; }
+
+  section { margin-top: 46px; }
+  h2 { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; line-height: 1.15; }
+  section > p { margin-top: 12px; font-size: 1.03rem; max-width: 58ch; }
+
+  .bignum { margin: 22px 0 6px; }
+  .bignum .n { font-family: var(--font-display); font-weight: 600; color: var(--coral-bright); font-size: clamp(3.2rem, 10vw, 4.6rem); line-height: .95; letter-spacing: -.02em; }
+  .bignum .l { font-size: .9rem; color: var(--graphite); margin-top: 8px; max-width: 46ch; }
+
+  .moves { margin-top: 18px; display: grid; gap: 16px; }
+  .move { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: baseline; }
+  .move .n { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; color: var(--coral-bright); line-height: 1; }
+  .move h3 { font-weight: 600; font-size: 1.05rem; font-family: var(--font-body); }
+  .move p { font-size: .99rem; margin-top: 4px; max-width: 54ch; }
+
+  .limits {
+    margin-top: 46px; padding: 18px 22px; background: var(--white);
+    border: 1px solid var(--hairline); border-radius: 10px; font-size: .95rem; max-width: 58ch;
+  }
+  .limits .lab { font-size: .78rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--coral-deep); display: block; margin-bottom: 6px; }
+
+  .offer { margin-top: 46px; background: var(--ink); color: var(--bone); border-radius: 14px; padding: 30px 28px; }
+  .offer .k { font-size: .8125rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--coral-bright); }
+  .offer p { margin-top: 10px; font-size: 1rem; max-width: 52ch; color: color-mix(in srgb, var(--bone) 90%, transparent); }
+  .offer .amount { font-family: var(--font-display); font-weight: 600; font-size: 2.6rem; margin-top: 12px; }
+  .offer .amount span { font-size: 1rem; font-family: var(--font-body); font-weight: 300; }
+  .offer .reply { margin-top: 14px; font-size: .98rem; }
+  .offer .reply strong { font-weight: 600; }
+
+  footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--hairline-strong); display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 12px; }
+  .sig { font-family: var(--font-signature); font-size: 1.45rem; letter-spacing: .04em; }
+  .src { font-size: .8125rem; color: var(--graphite); max-width: 40ch; text-align: right; }
+</style>
+</head>
+<body>
+<main class="page">
+  <p class="kicker" data-slot="kicker"></p>
+  <h1 data-slot="title"></h1>
+  <p class="meta" data-slot="meta"></p>
+
+  <div class="trouble"><span class="lab">What you told us</span><span data-slot="trouble"></span></div>
+
+  <section>
+    <h2>What's actually going on</h2>
+    <p data-slot="diagnosis"></p>
+    <div class="bignum" id="bignumWrap">
+      <div class="n" data-slot="bigNumber"></div>
+      <div class="l" data-slot="bigNumberLabel"></div>
+    </div>
+    <p data-slot="diagnosis2"></p>
+  </section>
+
+  <section>
+    <h2>Three moves, in order</h2>
+    <div class="moves" id="moves"></div>
+  </section>
+
+  <div class="limits"><span class="lab">What this report can't know</span><span data-slot="limits"></span></div>
+
+  <div class="offer">
+    <span class="k">If you'd rather it just get done</span>
+    <div class="amount">$500 <span>one time</span></div>
+    <p data-slot="offer"></p>
+    <p class="reply"><strong>Reply to the email this came in</strong> — you'll be writing to me, not a funnel.</p>
+  </div>
+
+  <footer>
+    <span class="sig">Meschelle Peterson</span>
+    <span class="src" data-slot="source"></span>
+  </footer>
+</main>
+
+<script id="payload" type="application/json">
+{
+  "kicker": "Prepared for you · code63labs",
+  "title": "The empty chairs are a system, not bad luck.",
+  "meta": "Mini-report · written by Meschelle's team · sample",
+  "trouble": "People book with me and then just… don't show. I run a small med spa and some weeks it feels like half my Tuesday is holes.",
+  "diagnosis": "No-shows feel personal, but they behave like a rate — steady, predictable, and mostly caused by how the booking works rather than who the client is. Across published studies of appointment businesses, the average no-show rate runs near one in four. If your book looks like most, the holes in your Tuesday are arithmetic:",
+  "bigNumber": "≈7",
+  "bigNumberLabel": "slots held for people who never arrive, on a 30-booking week at the published average rate (23%, Health Policy 2018 systematic review)",
+  "diagnosis2": "The fix is rarely 'charge deposits for everyone' — that punishes the loyal to discipline the flaky. The working pattern is to make confirming effortless, make forgetting hard, and make the repeat offenders carry the policy.",
+  "moves": [
+    { "title": "Confirm twice, tiny and human", "body": "A short text the evening before and another 2 hours out, written like you — not like a robot. Forgetfulness is the #1 published reason for no-shows; two well-timed nudges attack exactly that." },
+    { "title": "Open a same-day standby list", "body": "Every cancellation offers the slot to the next person on a standby list automatically. The hole still happens; the revenue doesn't." },
+    { "title": "Deposits for repeat offenders only", "body": "Two no-shows in 90 days flips that client — and only that client — to card-on-file booking. Loyal clients never feel it; the pattern pays for itself." }
+  ],
+  "limits": "This was written from one paragraph. It can't see your actual calendar, your ticket size, or your client mix — so the seven-slot figure is the published average applied to a typical week, not a measurement of your book. The moves are the ones that survive contact with real appointment businesses; the tuning is where your specifics matter.",
+  "offer": "My team sets all three moves up on your systems — the confirmations, the standby list, the deposit flip — wired in and working, with you approving each piece before it goes live.",
+  "source": "Report numbers carry their sources inline · nothing invented"
+}
+</script>
+<script>
+  const P = JSON.parse(document.getElementById('payload').textContent);
+  document.querySelectorAll('[data-slot]').forEach(el => {
+    const v = P[el.getAttribute('data-slot')];
+    if (v !== undefined) el.textContent = v;
+  });
+  if (!P.bigNumber) document.getElementById('bignumWrap').style.display = 'none';
+  const holder = document.getElementById('moves');
+  (P.moves || []).forEach((m, i) => {
+    const d = document.createElement('div');
+    d.className = 'move';
+    d.innerHTML = '<span class="n"></span><div><h3></h3><p></p></div>';
+    d.querySelector('.n').textContent = i + 1;
+    d.querySelector('h3').textContent = m.title;
+    d.querySelector('p').textContent = m.body;
+    holder.appendChild(d);
+  });
+</script>
+</body>
+</html>
