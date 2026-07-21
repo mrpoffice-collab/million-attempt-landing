@@ -54,11 +54,13 @@
   .bignum .n { font-family: var(--font-display); font-weight: 600; color: var(--coral-bright); font-size: clamp(3.2rem, 10vw, 4.6rem); line-height: .95; letter-spacing: -.02em; }
   .bignum .l { font-size: .9rem; color: var(--graphite); margin-top: 8px; max-width: 46ch; }
 
-  .moves { margin-top: 18px; display: grid; gap: 16px; }
-  .move { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: baseline; }
-  .move .n { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; color: var(--coral-bright); line-height: 1; }
-  .move h3 { font-weight: 600; font-size: 1.05rem; font-family: var(--font-body); }
-  .move p { font-size: .99rem; margin-top: 4px; max-width: 54ch; }
+  .theses { margin-top: 18px; display: grid; gap: 20px; }
+  .thesis { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: baseline; }
+  .thesis .n { font-family: var(--font-display); font-weight: 600; font-size: 1.7rem; color: var(--coral-bright); line-height: 1; }
+  .thesis h3 { font-weight: 600; font-size: 1.06rem; font-family: var(--font-body); line-height: 1.5; }
+  .thesis .part { margin-top: 9px; max-width: 54ch; }
+  .thesis .part .lab { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--coral-deep); margin-bottom: 2px; }
+  .thesis .part p { font-size: .97rem; }
 
   .limits {
     margin-top: 46px; padding: 18px 22px; background: var(--white);
@@ -98,8 +100,9 @@
   </section>
 
   <section>
-    <h2>Three moves, in order</h2>
-    <div class="moves" id="moves"></div>
+    <h2>Three theses to press on</h2>
+    <p style="margin-top:10px;">What we suspect is true in your business, how we'd know, and what the fix is if it holds. This is where the real work starts — nothing here gets built until the evidence picks it.</p>
+    <div class="theses" id="theses"></div>
   </section>
 
   <div class="limits"><span class="lab">What this report can't know</span><span data-slot="limits"></span></div>
@@ -117,26 +120,36 @@
   </footer>
 </main>
 
-<script id="payload" type="application/json">
-{
-  "kicker": "Prepared for you · code63labs",
+<script id="payload" type="application/json">{
+  "kicker": "Sample report · code63labs",
   "title": "The empty chairs are a system, not bad luck.",
-  "meta": "Mini-report · written by Meschelle's team · sample",
-  "trouble": "People book with me and then just… don't show. I run a small med spa and some weeks it feels like half my Tuesday is holes.",
-  "diagnosis": "No-shows feel personal, but they behave like a rate — steady, predictable, and mostly caused by how the booking works rather than who the client is. Across published studies of appointment businesses, the average no-show rate runs near one in four. If your book looks like most, the holes in your Tuesday are arithmetic:",
+  "meta": "Mini-report · written by Meschelle’s team · published sample",
+  "trouble": "People book with me and then just… don’t show. I run a small med spa and some weeks it feels like half my Tuesday is holes.",
+  "diagnosis": "No-shows feel personal, but they behave like a rate — steady, predictable, and mostly produced by how the booking works rather than by who the client is. Across published studies of appointment businesses, the average no-show rate runs near one in four. If your book looks like most, the holes in your Tuesday are arithmetic:",
   "bigNumber": "≈7",
   "bigNumberLabel": "slots held for people who never arrive, on a 30-booking week at the published average rate (23%, Health Policy 2018 systematic review)",
-  "diagnosis2": "The fix is rarely 'charge deposits for everyone' — that punishes the loyal to discipline the flaky. The working pattern is to make confirming effortless, make forgetting hard, and make the repeat offenders carry the policy.",
-  "moves": [
-    { "title": "Confirm twice, tiny and human", "body": "A short text the evening before and another 2 hours out, written like you — not like a robot. Forgetfulness is the #1 published reason for no-shows; two well-timed nudges attack exactly that." },
-    { "title": "Open a same-day standby list", "body": "Every cancellation offers the slot to the next person on a standby list automatically. The hole still happens; the revenue doesn't." },
-    { "title": "Deposits for repeat offenders only", "body": "Two no-shows in 90 days flips that client — and only that client — to card-on-file booking. Loyal clients never feel it; the pattern pays for itself." }
+  "diagnosis2": "You’ve already heard the standard advice — reminders, deposits, policies — so knowing isn’t the bottleneck. The bottleneck is that the right fix depends on facts about your specific book that nobody has pulled: a blanket policy treats your best regular exactly like the stranger who has ghosted you twice, and that’s how fixes quietly get abandoned.",
+  "theses": [
+    {
+      "thesis": "Your no-shows cluster — most likely in first-visit clients arriving through one booking channel, not spread evenly across your book.",
+      "check": "Ninety days of your calendar, each missed appointment tagged two ways: first-timer or regular, and how it was booked — the Instagram link, the phone, or rebooked in the chair. One afternoon with your booking system’s export.",
+      "fix": "Card-on-file applies only where the cluster lives — say, first-visit online bookings — and your regulars never feel a thing. And if the cluster isn’t there, a blanket deposit policy would have cost you loyalty and fixed nothing."
+    },
+    {
+      "thesis": "Lead time is doing the damage: appointments booked two-plus weeks out are failing at a different rate than same-week ones.",
+      "check": "The same ninety days, each booking plotted by days-between-booking-and-visit against whether it held. This split is invisible in day-to-day scheduling and obvious the moment you graph it.",
+      "fix": "Long-lead bookings get one midpoint confirmation with an effortless reschedule path; short-lead bookings stay frictionless. If lead time shows nothing, the leak is at the point of booking — a different build entirely."
+    },
+    {
+      "thesis": "A share of the lost Tuesdays is recoverable, because cancellations and turned-away clients exist in the same weeks — they just never meet.",
+      "check": "Two counts from last month: same-week cancellations, and people you waitlisted informally or turned away. If both numbers are real, there’s revenue sitting between them.",
+      "fix": "Every cancellation automatically offers the slot down a standby list. The no-show still happens — the empty chair doesn’t."
+    }
   ],
-  "limits": "This was written from one paragraph. It can't see your actual calendar, your ticket size, or your client mix — so the seven-slot figure is the published average applied to a typical week, not a measurement of your book. The moves are the ones that survive contact with real appointment businesses; the tuning is where your specifics matter.",
-  "offer": "My team sets all three moves up on your systems — the confirmations, the standby list, the deposit flip — wired in and working, with you approving each piece before it goes live.",
+  "limits": "This was written from one paragraph, so these are theses — where we’d look first, not conclusions. Your book may kill all three and point somewhere better; that is exactly what the checking is for, and why the report stops short of telling you to change policy today.",
+  "offer": "Under the $500 plan, my team runs all three checks on your actual calendar export, shows you what held and what didn’t, and builds the fix the evidence picks — you approve every piece before it touches your booking flow.",
   "source": "Report numbers carry their sources inline · nothing invented"
-}
-</script>
+}</script>
 <script>
   const P = JSON.parse(document.getElementById('payload').textContent);
   document.querySelectorAll('[data-slot]').forEach(el => {
@@ -144,14 +157,17 @@
     if (v !== undefined) el.textContent = v;
   });
   if (!P.bigNumber) document.getElementById('bignumWrap').style.display = 'none';
-  const holder = document.getElementById('moves');
-  (P.moves || []).forEach((m, i) => {
+  const holder = document.getElementById('theses');
+  (P.theses || []).forEach((t, i) => {
     const d = document.createElement('div');
-    d.className = 'move';
-    d.innerHTML = '<span class="n"></span><div><h3></h3><p></p></div>';
+    d.className = 'thesis';
+    d.innerHTML = '<span class="n"></span><div><h3></h3>' +
+      '<div class="part"><span class="lab">How we\'d check it</span><p class="check"></p></div>' +
+      '<div class="part"><span class="lab">The fix, if it holds</span><p class="fix"></p></div></div>';
     d.querySelector('.n').textContent = i + 1;
-    d.querySelector('h3').textContent = m.title;
-    d.querySelector('p').textContent = m.body;
+    d.querySelector('h3').textContent = t.thesis;
+    d.querySelector('.check').textContent = t.check;
+    d.querySelector('.fix').textContent = t.fix;
     holder.appendChild(d);
   });
 </script>

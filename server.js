@@ -39,7 +39,7 @@ function livePayload(run) {
     bigNumber: r.bigNumber,
     bigNumberLabel: r.bigNumberLabel,
     diagnosis2: r.diagnosis2,
-    moves: r.moves,
+    theses: r.theses,
     limits: r.limits,
     offer: r.offer,
     source: r.bigNumber ? 'Report numbers carry their sources inline · nothing invented' : 'This report uses no statistics — reasoning only, honestly labeled',
